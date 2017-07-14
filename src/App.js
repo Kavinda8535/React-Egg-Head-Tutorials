@@ -2,36 +2,21 @@ import React from 'react';
 
 //**** Start  Default Property values and Property Tyeps Definition  ****/
 class App extends React.Component {
-  constructor()
-  {
-    super();
-    this.state = {
-      txt: 'this is the state txt',
-      cat: 0
-    }
-  }
-  //Update method for txt value
-  update(e){
-    this.setState({txt: e.target.value})
-  }
-  //Update method for cat value
-  update2(e){
-    this.setState({cat: e.target.value})
-  }
+   
   render() 
   {
-    return (
-      <div>
-        <input type="text" onChange={this.update.bind(this)} />
-        <input type="text" onChange={this.update2.bind(this)} />
-        <Widget update={this.update.bind(this)} />
-      <h1>{this.state.txt} - {this.state.cat}</h1>
-      </div>
-    )
+    return <Button> I <Heart /> React</Button>
   }
 }
 
-const Widget = (props) => 
-<input type="text" onChange={props.update} />
+const Button = (props) => <button> {props.children}</button> 
+
+// Class component
+class Heart extends React.Component {
+  render()
+  {
+    return <span>&hearts;</span>
+  }
+}
 
 export default App
