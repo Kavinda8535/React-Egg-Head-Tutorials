@@ -22,21 +22,26 @@ class App extends React.Component {
   
   componentWillMount() {
     console.log('componentWillMount')
+    this.setState({m: 2})
   }
   
   componentDidMount() {
     console.log('componentDidMount')
+    /*console.log(ReactDom.findDOMNode(this))*/
+    this.inc = setInterval(this.update,500) 
   }
 
   componentWillUnmount() {
     console.log('componentWillUnmount')
+    clearInterval(this.inc)
   }
     
 
   render()
   {
     console.log('render');
-    return <button onClick={this.update}>{this.state.val}</button>      
+    console.log(this.state.val + ' - ' + this.state.m)
+    return <button onClick={this.update}>{this.state.val * this.state.m}</button>
     
   }
 }
