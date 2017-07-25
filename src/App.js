@@ -1,67 +1,49 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-
-//**** Start  Default Property values and Property Tyeps Definition  ****/
 class App extends React.Component {
 
   constructor() {
     super();
     this.state = {
-      val:0
+      increasing: false
     }
-    this.update = this.update.bind(this)
 
   }
   update() {
-    this.setState({
-      val:this.state.val+1
-    })
-  }
-
-  
-  componentWillMount() {
-    console.log('componentWillMount')
-    this.setState({m: 2})
+    ReactDom.render(<App val={this.props.val+1} />, document.getElementById('root'))
   }
   
-  componentDidMount() {
-    console.log('componentDidMount')
-    /*console.log(ReactDom.findDOMNode(this))*/
-    this.inc = setInterval(this.update,500) 
+  // Next updating phase
+  componentWillReceiveProps(nextProps)
+  {
+    this.setState({increasing: nextProps.val > this.props.val})
   }
 
-  componentWillUnmount() {
-    console.log('componentWillUnmount')
-    clearInterval(this.inc)
+  // Next updating phase
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.val % 5 === 0;
   }
+  
     
 
   render()
   {
-    console.log('render');
-    console.log(this.state.val + ' - ' + this.state.m)
-    return <button onClick={this.update}>{this.state.val * this.state.m}</button>
-    
-  }
-}
-
-class Wrapper extends React.Component {
-  mount(){
-    ReactDom.render(<App/>, document.getElementById('a'))
-  }
-  unmount(){
-    ReactDom.unmountComponentAtNode(document.getElementById('a'))
-  }
-  render(){
+    console.log(this.state.increasing)
     return (
-      <div>
-        <button onClick={this.mount.bind(this)}> Mount </button>
-        <button onClick={this.unmount.bind(this)}> Unmount </button>
-        <div id="a"></div>
-        </div>
+    <button onClick={this.update.bind(this)}>
+      {this.props.val}
+      </button>
     )
   }
+
+  // Next updating phase after update is finished this trigger...
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prevProps:", prevProps.val)
+  }
+  
 }
 
-export default Wrapper // setting the Warpper here and include the App inside the wrapper
+App.defaultProps = {val: 0}
+
+export default App 
